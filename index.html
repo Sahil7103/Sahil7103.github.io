@@ -437,14 +437,41 @@ button{font-family:var(--font);cursor:pointer;border:none;outline:none;backgroun
 /* ─── MOBILE RESPONSIVE ─── */
 @media(max-width:700px){
   :root{--sidebar-w:0px}
+  html,body{overflow:hidden}
   #sidebar{display:none}
   #mobile-nav{display:flex}
-  .stat-grid{grid-template-columns:repeat(2,1fr)}
+  #app{top:var(--topbar-h);bottom:64px;left:0;right:0;width:100%}
+  #main{width:100%;overflow-y:auto;overflow-x:hidden}
+  .page{padding:16px;padding-bottom:90px;min-height:auto}
+  .tb-title{text-align:left;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tb-right{display:none}
+  .tb-dots{margin-right:10px}
+  .home-hero{padding:20px}
+  .hero-name{font-size:24px;line-height:1.2}
+  .hero-role{font-size:12.5px;line-height:1.5}
+  .hero-bio{font-size:12.5px;line-height:1.65;max-width:100%}
+  .hero-badges{gap:6px}
+  .hero-badge{font-size:10px;padding:4px 9px}
+  .stat-grid{grid-template-columns:repeat(2,1fr);gap:8px}
+  .stat-n{font-size:19px}
   .quick-actions{grid-template-columns:1fr}
   .contact-grid{grid-template-columns:1fr}
   .edu-card{flex-direction:column;align-items:flex-start}
   .edu-right{text-align:left}
-  .page{padding:16px}
+  .proj-top,.exp-header{flex-direction:column;align-items:flex-start}
+  .gh-profile-card{flex-direction:column;align-items:flex-start}
+  .gh-stats-row{flex-wrap:wrap;gap:14px}
+  .skill-pill{font-size:11px;padding:6px 10px}
+  .contact-item{padding:14px;min-width:0}
+  .contact-val{word-break:break-word}
+  .term-window{border-radius:10px}
+  .term-area{min-height:260px;max-height:360px;font-size:11px;padding:12px;overflow-x:auto}
+  .term-input-row{padding:0 12px 12px;font-size:11px;gap:4px;overflow-x:auto}
+  .tinput{font-size:11px;min-width:120px}
+  .term-hint{padding:10px 12px;gap:6px}
+  .thint{font-size:9.5px;padding:3px 7px}
+  .mn-item{font-size:9.5px;padding:4px 6px;min-width:0}
+  .mn-icon{font-size:17px}
 }
 #mobile-nav{
   display:none;position:fixed;bottom:0;left:0;right:0;
@@ -954,13 +981,13 @@ button{font-family:var(--font);cursor:pointer;border:none;outline:none;backgroun
 
       <div class="section-label">Reach Out</div>
       <div class="contact-grid">
-        <div class="contact-item" onclick="window.location.href='mailto:sahilkoshti1354@gmail.com'">
+        <a class="contact-item" href="mailto:sahilkoshti1354@gmail.com">
           <div class="contact-icon" style="background:rgba(124,106,247,.1)">📧</div>
           <div>
             <div class="contact-label">Email</div>
             <div class="contact-val">sahilkoshti1354@gmail.com</div>
           </div>
-        </div>
+        </a>
         <div class="contact-item">
           <div class="contact-icon" style="background:rgba(52,211,153,.08)">📞</div>
           <div>
@@ -1028,7 +1055,7 @@ button{font-family:var(--font);cursor:pointer;border:none;outline:none;backgroun
   <div class="mn-item active" data-page="home" onclick="goPage('home',this)"><div class="mn-icon">🏠</div>Home</div>
   <div class="mn-item" data-page="projects" onclick="goPage('projects',this)"><div class="mn-icon">🚀</div>Projects</div>
   <div class="mn-item" data-page="skills" onclick="goPage('skills',this)"><div class="mn-icon">⚡</div>Skills</div>
-  <div class="mn-item" data-page="experience" onclick="goPage('experience',this)"><div class="mn-icon">🎓</div>Exp</div>
+  <div class="mn-item" data-page="terminal" onclick="goPage('terminal',this)"><div class="mn-icon">⌨️</div>Terminal</div>
   <div class="mn-item" data-page="contact" onclick="goPage('contact',this)"><div class="mn-icon">✉️</div>Contact</div>
 </div>
 
