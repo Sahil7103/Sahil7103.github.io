@@ -77,7 +77,8 @@ button{font-family:var(--font);cursor:pointer;border:none;outline:none;backgroun
   z-index:200;gap:0;
 }
 .tb-dots{display:flex;gap:7px;margin-right:16px}
-.tb-dot{width:12px;height:12px;border-radius:50%}
+.tb-dot{width:12px;height:12px;border-radius:50%;cursor:pointer;transition:transform .15s,filter .15s}
+.tb-dot:hover{transform:scale(1.12);filter:brightness(1.15)}
 .tb-dot.r{background:#ff5f57}.tb-dot.y{background:#febc2e}.tb-dot.g{background:#28c840}
 .tb-title{font-size:12px;font-family:var(--mono);color:var(--text2);flex:1;text-align:center;letter-spacing:.3px}
 .tb-right{display:flex;align-items:center;gap:14px;font-size:11px;font-family:var(--mono);color:var(--text2)}
@@ -405,7 +406,8 @@ button{font-family:var(--font);cursor:pointer;border:none;outline:none;backgroun
   border-bottom:1px solid #2a2a2a;
 }
 .term-tbar-dots{display:flex;gap:6px}
-.term-tbar-dot{width:11px;height:11px;border-radius:50%}
+.term-tbar-dot{width:11px;height:11px;border-radius:50%;cursor:pointer;transition:transform .15s,filter .15s}
+.term-tbar-dot:hover{transform:scale(1.15);filter:brightness(1.15)}
 .term-tbar-title{margin-left:8px;font-size:11px;font-family:var(--mono);color:#666}
 .term-area{
   padding:16px;font-family:var(--mono);font-size:12.5px;
@@ -433,6 +435,35 @@ button{font-family:var(--font);cursor:pointer;border:none;outline:none;backgroun
   padding:3px 8px;color:#555;cursor:pointer;transition:all .15s;
 }
 .thint:hover{color:#aaa;border-color:#444}
+
+
+/* ─── WINDOW DOT ACTION STATES ─── */
+body.focus-mode #sidebar,
+body.focus-mode #mobile-nav{display:none !important}
+body.focus-mode #app{bottom:0 !important}
+body.focus-mode .page:not(.active){display:none}
+
+body.dim-mode #main{filter:brightness(.72);transition:filter .25s ease}
+body.dim-mode #topbar{filter:brightness(.85)}
+
+.term-window.minimized .term-area,
+.term-window.minimized .term-input-row,
+.term-window.minimized .term-hint{display:none}
+.term-window.minimized{max-width:420px}
+
+.term-window.fullscreen{
+  position:fixed !important;
+  top:56px;
+  left:16px;
+  right:16px;
+  bottom:16px;
+  z-index:999;
+  display:flex;
+  flex-direction:column;
+}
+.term-window.fullscreen .term-area{flex:1;max-height:none;min-height:0}
+.term-window.fullscreen .term-hint{flex-shrink:0}
+.term-window.fullscreen .term-input-row{flex-shrink:0}
 
 /* ─── MOBILE RESPONSIVE ─── */
 @media(max-width:700px){
@@ -501,10 +532,10 @@ button{font-family:var(--font);cursor:pointer;border:none;outline:none;backgroun
 
 <!-- TOP BAR -->
 <div id="topbar">
-  <div class="tb-dots">
-    <div class="tb-dot r"></div>
-    <div class="tb-dot y"></div>
-    <div class="tb-dot g"></div>
+  <div class="tb-dots" title="Window controls">
+    <div class="tb-dot r" onclick="topbarClose()" title="Go Home"></div>
+    <div class="tb-dot y" onclick="topbarMinimize()" title="Dim / Restore"></div>
+    <div class="tb-dot g" onclick="topbarMaximize()" title="Focus Mode"></div>
   </div>
   <div class="tb-title" id="tbTitle">about.me — Sahil Koshti</div>
   <div class="tb-right">
@@ -938,10 +969,10 @@ button{font-family:var(--font);cursor:pointer;border:none;outline:none;backgroun
       </div>
       <div class="term-window">
         <div class="term-tbar">
-          <div class="term-tbar-dots">
-            <div class="term-tbar-dot" style="background:#ff5f57"></div>
-            <div class="term-tbar-dot" style="background:#febc2e"></div>
-            <div class="term-tbar-dot" style="background:#28c840"></div>
+          <div class="term-tbar-dots" title="Terminal controls">
+            <div class="term-tbar-dot" style="background:#ff5f57" onclick="closeTerminal()" title="Close Terminal"></div>
+            <div class="term-tbar-dot" style="background:#febc2e" onclick="minimizeTerminal()" title="Minimize Terminal"></div>
+            <div class="term-tbar-dot" style="background:#28c840" onclick="maximizeTerminal()" title="Fullscreen Terminal"></div>
           </div>
           <div class="term-tbar-title">bash — sahil@dev</div>
         </div>
@@ -1093,6 +1124,45 @@ function goPage(id, el){
   document.querySelectorAll('[data-page="'+id+'"]').forEach(i=>i.classList.add('active'));
   document.getElementById('tbTitle').textContent=pageTitles[id]||id;
   if(id==='terminal')setTimeout(()=>document.getElementById('termIn').focus(),100);
+}
+
+
+// Window dot controls
+function topbarClose(){
+  document.body.classList.remove('focus-mode','dim-mode');
+  document.querySelectorAll('.term-window').forEach(t=>t.classList.remove('fullscreen','minimized'));
+  goPage('home', document.querySelector('[data-page="home"]'));
+}
+
+function topbarMinimize(){
+  document.body.classList.toggle('dim-mode');
+}
+
+function topbarMaximize(){
+  document.body.classList.toggle('focus-mode');
+}
+
+function closeTerminal(){
+  const terminal=document.querySelector('.term-window');
+  if(terminal){terminal.classList.remove('fullscreen','minimized');}
+  goPage('home', document.querySelector('[data-page="home"]'));
+}
+
+function minimizeTerminal(){
+  const terminal=document.querySelector('.term-window');
+  if(!terminal)return;
+  terminal.classList.remove('fullscreen');
+  terminal.classList.toggle('minimized');
+}
+
+function maximizeTerminal(){
+  const terminal=document.querySelector('.term-window');
+  if(!terminal)return;
+  terminal.classList.remove('minimized');
+  terminal.classList.toggle('fullscreen');
+  if(terminal.classList.contains('fullscreen')){
+    setTimeout(()=>document.getElementById('termIn')?.focus(),100);
+  }
 }
 
 // Terminal
