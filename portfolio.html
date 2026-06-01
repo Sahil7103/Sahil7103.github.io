@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5"/>
+<title>Sahil Koshti | Full Stack Mobile & AI Engineer</title>
+<meta name="description" content="Full Stack Mobile Developer & Applied AI Engineer. Flutter, Django, FastAPI, LLM applications. Based in Ahmedabad, India."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080812;
+  --bg2:#0c0c1a;
+  --bg3:#10101e;
+  --surface:#141422;
+  --surface2:#1a1a2c;
+  --surface3:#1e1e32;
+  --border:#22223a;
+  --border2:#2e2e4a;
+  --border3:#3a3a56;
+  --text:#eeeef8;
+  --text2:#8888aa;
+  --text3:#4a4a6a;
+  --accent:#7c6af7;
+  --accent-dim:#5a4bc4;
+  --accent2:#a78bfa;
+  --accent-glow:rgba(124,106,247,0.18);
+  --green:#34d399;
+  --green-dim:#10b981;
+  --blue:#60a5fa;
+  --orange:#fb923c;
+  --pink:#f472b6;
+  --yellow:#fbbf24;
+  --red:#f87171;
+  --sidebar-w:220px;
+  --topbar-h:42px;
+  --font:'Sora',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --rad:8px;
+  --rad2:12px;
+  --rad3:16px;
+}
+
+html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--font);cursor:pointer;border:none;outline:none;background:none}
+
+/* ─── BOOT ─── */
+#boot{
+  position:fixed;inset:0;background:var(--bg);z-index:9999;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:opacity .5s ease;
+}
+#boot.out{opacity:0;pointer-events:none}
+.boot-logo{
+  width:80px;height:80px;border-radius:22px;
+  background:linear-gradient(135deg,#7c6af7,#f472b6);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:28px;font-weight:700;color:#fff;
+  margin-bottom:20px;
+  box-shadow:0 0 40px rgba(124,106,247,0.4);
+}
+.boot-title{font-size:20px;font-weight:600;margin-bottom:6px}
+.boot-sub{font-size:12px;color:var(--text2);font-family:var(--mono);margin-bottom:28px;letter-spacing:.5px}
+.boot-track{width:180px;height:2px;background:var(--border2);border-radius:2px;overflow:hidden}
+.boot-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--pink));border-radius:2px;width:0;animation:bfill 1.8s ease forwards}
+@keyframes bfill{to{width:100%}}
+
+/* ─── TOPBAR ─── */
+#topbar{
+  position:fixed;top:0;left:0;right:0;height:var(--topbar-h);
+  background:rgba(8,8,18,0.95);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 16px;
+  z-index:200;gap:0;
+}
+.tb-dots{display:flex;gap:7px;margin-right:16px}
+.tb-dot{width:12px;height:12px;border-radius:50%}
+.tb-dot.r{background:#ff5f57}.tb-dot.y{background:#febc2e}.tb-dot.g{background:#28c840}
+.tb-title{font-size:12px;font-family:var(--mono);color:var(--text2);flex:1;text-align:center;letter-spacing:.3px}
+.tb-right{display:flex;align-items:center;gap:14px;font-size:11px;font-family:var(--mono);color:var(--text2)}
+.tb-status{display:flex;align-items:center;gap:5px}
+.tb-dot-green{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green)}
+
+/* ─── LAYOUT ─── */
+#app{
+  position:fixed;top:var(--topbar-h);bottom:0;left:0;right:0;
+  display:flex;
+}
+
+/* ─── SIDEBAR ─── */
+#sidebar{
+  width:var(--sidebar-w);
+  background:var(--bg2);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  flex-shrink:0;
+}
+.sb-profile{
+  padding:20px 16px 16px;
+  border-bottom:1px solid var(--border);
+}
+.sb-avatar{
+  width:52px;height:52px;border-radius:14px;
+  background:linear-gradient(135deg,var(--accent),var(--pink));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:20px;font-weight:700;color:#fff;
+  margin-bottom:10px;position:relative;
+}
+.sb-avail{
+  position:absolute;bottom:-3px;right:-3px;
+  width:14px;height:14px;border-radius:50%;
+  background:var(--green);border:2px solid var(--bg2);
+}
+.sb-name{font-size:13px;font-weight:600;color:var(--text)}
+.sb-role{font-size:10.5px;color:var(--text2);margin-top:2px;line-height:1.4}
+.sb-loc{font-size:10px;color:var(--text3);margin-top:5px;font-family:var(--mono)}
+
+.sb-nav{flex:1;overflow-y:auto;padding:8px 0}
+.sb-nav::-webkit-scrollbar{width:0}
+.sb-section-label{
+  font-size:9.5px;font-family:var(--mono);color:var(--text3);
+  text-transform:uppercase;letter-spacing:1.2px;
+  padding:12px 16px 4px;
+}
+.sb-item{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 16px;margin:1px 8px;border-radius:var(--rad);
+  cursor:pointer;transition:all .18s;
+  font-size:12.5px;color:var(--text2);
+}
+.sb-item:hover{background:var(--surface);color:var(--text)}
+.sb-item.active{background:var(--accent-glow);color:var(--accent2);border:1px solid rgba(124,106,247,.2)}
+.sb-icon{font-size:14px;width:18px;text-align:center;flex-shrink:0}
+.sb-badge{
+  margin-left:auto;font-size:10px;font-family:var(--mono);
+  background:rgba(124,106,247,.15);color:var(--accent2);
+  border-radius:20px;padding:1px 7px;border:1px solid rgba(124,106,247,.2);
+}
+
+.sb-bottom{
+  border-top:1px solid var(--border);
+  padding:12px 16px;
+}
+.sb-contact-links{display:flex;gap:8px}
+.sb-link{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  padding:7px;border-radius:var(--rad);
+  background:var(--surface);border:1px solid var(--border);
+  font-size:13px;transition:all .18s;cursor:pointer;
+}
+.sb-link:hover{border-color:var(--border3);background:var(--surface2)}
+
+/* ─── MAIN PANEL ─── */
+#main{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  background:var(--bg3);
+  position:relative;
+}
+#main::-webkit-scrollbar{width:5px}
+#main::-webkit-scrollbar-track{background:transparent}
+#main::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* Each page */
+.page{display:none;padding:28px;min-height:100%;animation:fadeUp .22s ease}
+.page.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ─── SHARED COMPONENTS ─── */
+.page-header{margin-bottom:24px}
+.page-title{font-size:22px;font-weight:700;color:var(--text);letter-spacing:-.5px}
+.page-sub{font-size:13px;color:var(--text2);margin-top:4px}
+.page-divider{height:1px;background:var(--border);margin:24px 0}
+
+.card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--rad2);padding:20px;
+  transition:border-color .2s;
+}
+.card:hover{border-color:var(--border2)}
+
+.tag{
+  display:inline-flex;align-items:center;
+  font-size:10.5px;font-family:var(--mono);
+  padding:3px 8px;border-radius:6px;
+  background:rgba(124,106,247,.1);color:var(--accent2);
+  border:1px solid rgba(124,106,247,.18);
+}
+.tag.green{background:rgba(52,211,153,.08);color:var(--green);border-color:rgba(52,211,153,.2)}
+.tag.blue{background:rgba(96,165,250,.08);color:var(--blue);border-color:rgba(96,165,250,.2)}
+.tag.orange{background:rgba(251,146,60,.08);color:var(--orange);border-color:rgba(251,146,60,.2)}
+.tag.pink{background:rgba(244,114,182,.08);color:var(--pink);border-color:rgba(244,114,182,.2)}
+.tag.yellow{background:rgba(251,191,36,.08);color:var(--yellow);border-color:rgba(251,191,36,.2)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+
+.section-label{
+  font-size:10px;font-family:var(--mono);color:var(--text3);
+  text-transform:uppercase;letter-spacing:1.2px;margin-bottom:12px;
+}
+
+/* ─── HOME PAGE ─── */
+.home-hero{
+  background:linear-gradient(135deg,rgba(124,106,247,.08),rgba(244,114,182,.05));
+  border:1px solid rgba(124,106,247,.15);
+  border-radius:var(--rad3);padding:28px;margin-bottom:20px;
+  position:relative;overflow:hidden;
+}
+.home-hero::before{
+  content:'';position:absolute;top:-40px;right:-40px;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(124,106,247,.12),transparent 70%);
+  pointer-events:none;
+}
+.hero-name{font-size:28px;font-weight:700;letter-spacing:-1px;color:var(--text)}
+.hero-role{font-size:14px;color:var(--accent2);font-family:var(--mono);margin-top:6px}
+.hero-bio{font-size:13.5px;color:var(--text2);line-height:1.75;margin-top:14px;max-width:560px}
+.hero-badges{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;font-family:var(--mono);
+  background:rgba(255,255,255,.05);border:1px solid var(--border2);
+  border-radius:20px;padding:4px 12px;color:var(--text2);
+}
+
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.stat-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--rad2);padding:14px;text-align:center;
+}
+.stat-n{font-size:22px;font-weight:700;font-family:var(--mono);color:var(--accent2)}
+.stat-l{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-top:3px}
+
+.quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.qa-btn{
+  display:flex;align-items:center;gap:12px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--rad2);padding:14px 16px;
+  cursor:pointer;transition:all .2s;text-align:left;
+}
+.qa-btn:hover{border-color:var(--accent);background:var(--surface2);transform:translateY(-2px)}
+.qa-icon{font-size:20px;flex-shrink:0}
+.qa-label{font-size:12px;font-weight:600;color:var(--text)}
+.qa-sub{font-size:11px;color:var(--text2);margin-top:2px}
+
+/* ─── PROJECTS PAGE ─── */
+.proj-grid{display:flex;flex-direction:column;gap:14px}
+.proj-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--rad2);padding:20px;
+  transition:border-color .2s,transform .2s;
+}
+.proj-card:hover{border-color:var(--border3);transform:translateY(-2px)}
+.proj-card.featured{border-color:rgba(124,106,247,.3);background:linear-gradient(135deg,rgba(124,106,247,.05),var(--surface))}
+.proj-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px}
+.proj-title{font-size:14.5px;font-weight:600;color:var(--text)}
+.proj-year{
+  font-size:10.5px;font-family:var(--mono);color:var(--text3);
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:6px;padding:2px 8px;white-space:nowrap;flex-shrink:0;
+}
+.proj-desc{font-size:12.5px;color:var(--text2);line-height:1.65}
+.proj-highlight{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11.5px;font-family:var(--mono);color:var(--green);
+  background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.15);
+  border-radius:6px;padding:4px 10px;margin-top:12px;
+}
+.ai-chip{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:10px;font-family:var(--mono);
+  background:rgba(167,139,250,.1);color:var(--accent2);
+  border:1px solid rgba(167,139,250,.2);border-radius:20px;
+  padding:2px 8px;margin-bottom:6px;
+}
+
+/* ─── SKILLS PAGE ─── */
+.skills-sections{display:flex;flex-direction:column;gap:14px}
+.skill-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--rad2);padding:18px}
+.skill-block-title{font-size:12px;font-weight:600;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.skill-pills{display:flex;flex-wrap:wrap;gap:7px}
+.skill-pill{
+  display:flex;align-items:center;gap:7px;
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:var(--rad);padding:6px 12px;
+  font-size:12px;color:var(--text);transition:all .18s;cursor:default;
+}
+.skill-pill:hover{border-color:var(--border3);background:var(--surface2)}
+.sp-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+/* ─── EXPERIENCE PAGE ─── */
+.exp-timeline{display:flex;flex-direction:column;gap:14px}
+.exp-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rad2);padding:20px}
+.exp-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:6px}
+.exp-role{font-size:14px;font-weight:600;color:var(--text)}
+.exp-period{
+  font-size:10.5px;font-family:var(--mono);
+  background:rgba(124,106,247,.1);color:var(--accent2);
+  border:1px solid rgba(124,106,247,.2);border-radius:6px;
+  padding:2px 8px;white-space:nowrap;flex-shrink:0;
+}
+.exp-company{font-size:12.5px;color:var(--text2);margin-bottom:3px}
+.exp-loc{font-size:11px;font-family:var(--mono);color:var(--text3);margin-bottom:12px}
+.exp-bullets{list-style:none;display:flex;flex-direction:column;gap:6px}
+.exp-bullets li{
+  font-size:12.5px;color:var(--text2);line-height:1.6;
+  display:flex;align-items:flex-start;gap:8px;
+}
+.exp-bullets li::before{content:"▸";color:var(--accent);flex-shrink:0;margin-top:2px;font-size:10px}
+
+.edu-cards{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.edu-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--rad2);padding:16px;
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+}
+.edu-left{}
+.edu-deg{font-size:13px;font-weight:600;color:var(--text)}
+.edu-uni{font-size:12px;color:var(--text2);margin-top:3px}
+.edu-right{text-align:right;flex-shrink:0}
+.edu-year{font-size:11px;font-family:var(--mono);color:var(--text3)}
+.edu-grade{font-size:12px;font-family:var(--mono);color:var(--accent2);font-weight:600;margin-top:3px}
+
+.soft-skills{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.soft-pill{
+  display:flex;align-items:center;gap:6px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--rad);padding:7px 14px;
+  font-size:12px;color:var(--text2);
+}
+
+/* ─── GITHUB PAGE ─── */
+.gh-profile-card{
+  background:linear-gradient(135deg,var(--surface),rgba(124,106,247,.05));
+  border:1px solid rgba(124,106,247,.2);
+  border-radius:var(--rad2);padding:22px;margin-bottom:16px;
+  display:flex;gap:18px;align-items:center;
+}
+.gh-avatar{
+  width:60px;height:60px;border-radius:16px;
+  background:linear-gradient(135deg,#161616,var(--accent-dim));
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;font-weight:700;color:var(--accent2);
+  font-family:var(--mono);flex-shrink:0;
+}
+.gh-name{font-size:16px;font-weight:600;color:var(--text)}
+.gh-handle{font-size:12px;font-family:var(--mono);color:var(--text2);margin-top:2px}
+.gh-stats-row{display:flex;gap:18px;margin-top:10px}
+.gh-stat-n{font-size:16px;font-weight:700;font-family:var(--mono);color:var(--accent2)}
+.gh-stat-l{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+.gh-cta{
+  display:inline-flex;align-items:center;gap:8px;margin-top:12px;
+  background:var(--surface2);border:1px solid var(--border2);
+  border-radius:var(--rad);padding:8px 16px;font-size:12px;
+  color:var(--text2);cursor:pointer;transition:all .2s;
+}
+.gh-cta:hover{border-color:var(--border3);color:var(--text)}
+
+.repo-grid{display:flex;flex-direction:column;gap:10px}
+.repo-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--rad2);padding:16px;
+  transition:border-color .2s;cursor:pointer;
+}
+.repo-card:hover{border-color:var(--border3)}
+.repo-name{font-size:13px;font-weight:600;color:var(--blue);font-family:var(--mono)}
+.repo-desc{font-size:12px;color:var(--text2);margin-top:5px;line-height:1.5}
+.repo-footer{display:flex;align-items:center;gap:14px;margin-top:10px}
+.repo-lang{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2)}
+.lang-dot{width:10px;height:10px;border-radius:50%}
+
+/* ─── CONTACT PAGE ─── */
+.contact-hero{
+  background:linear-gradient(135deg,rgba(124,106,247,.08),rgba(244,114,182,.06));
+  border:1px solid rgba(124,106,247,.15);border-radius:var(--rad3);
+  padding:24px;text-align:center;margin-bottom:20px;
+}
+.contact-hero-title{font-size:18px;font-weight:600;color:var(--text)}
+.contact-hero-sub{font-size:13px;color:var(--text2);margin-top:6px}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.contact-item{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--rad2);padding:16px;
+  display:flex;align-items:center;gap:12px;
+  transition:border-color .2s;cursor:pointer;
+}
+.contact-item:hover{border-color:var(--border2)}
+.contact-icon{
+  width:36px;height:36px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;
+}
+.contact-label{font-size:10.5px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.5px}
+.contact-val{font-size:12.5px;color:var(--text);margin-top:2px}
+
+/* ─── TERMINAL PAGE ─── */
+.term-window{
+  background:#000;border:1px solid var(--border);
+  border-radius:var(--rad2);overflow:hidden;
+}
+.term-tbar{
+  background:#1a1a1a;padding:10px 14px;display:flex;align-items:center;gap:7px;
+  border-bottom:1px solid #2a2a2a;
+}
+.term-tbar-dots{display:flex;gap:6px}
+.term-tbar-dot{width:11px;height:11px;border-radius:50%}
+.term-tbar-title{margin-left:8px;font-size:11px;font-family:var(--mono);color:#666}
+.term-area{
+  padding:16px;font-family:var(--mono);font-size:12.5px;
+  color:#c8c8e8;min-height:340px;max-height:520px;overflow-y:auto;
+}
+.term-area::-webkit-scrollbar{width:3px}
+.term-area::-webkit-scrollbar-thumb{background:#333}
+.tl{margin-bottom:3px;line-height:1.6}
+.tp{color:var(--accent2)}.tc{color:var(--green)}.to{color:#8888aa}
+.ta{color:var(--accent2)}.tw{color:var(--yellow)}.te{color:var(--red)}
+.term-input-row{display:flex;align-items:center;gap:6px;margin-top:8px;padding:0 16px 16px}
+.tinput{
+  background:transparent;border:none;color:var(--green);
+  font-family:var(--mono);font-size:12.5px;flex:1;outline:none;
+  caret-color:var(--green);
+}
+.tinput::placeholder{color:#333}
+.term-hint{
+  display:flex;flex-wrap:wrap;gap:7px;padding:12px 16px;
+  border-top:1px solid #111;
+}
+.thint{
+  font-size:10px;font-family:var(--mono);
+  background:#111;border:1px solid #222;border-radius:5px;
+  padding:3px 8px;color:#555;cursor:pointer;transition:all .15s;
+}
+.thint:hover{color:#aaa;border-color:#444}
+
+/* ─── MOBILE RESPONSIVE ─── */
+@media(max-width:700px){
+  :root{--sidebar-w:0px}
+  #sidebar{display:none}
+  #mobile-nav{display:flex}
+  .stat-grid{grid-template-columns:repeat(2,1fr)}
+  .quick-actions{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+  .edu-card{flex-direction:column;align-items:flex-start}
+  .edu-right{text-align:left}
+  .page{padding:16px}
+}
+#mobile-nav{
+  display:none;position:fixed;bottom:0;left:0;right:0;
+  background:rgba(8,8,18,0.97);backdrop-filter:blur(20px);
+  border-top:1px solid var(--border);
+  padding:8px 0;z-index:200;
+  justify-content:space-around;
+}
+.mn-item{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  font-size:10px;color:var(--text3);cursor:pointer;padding:4px 10px;
+  border-radius:8px;transition:color .2s;
+}
+.mn-item.active,.mn-item:hover{color:var(--accent2)}
+.mn-icon{font-size:18px}
+</style>
+</head>
+<body>
+
+<!-- BOOT -->
+<div id="boot">
+  <div class="boot-logo">SK</div>
+  <div class="boot-title">Sahil OS</div>
+  <div class="boot-sub">v1.0 — Full Stack &amp; AI Edition</div>
+  <div class="boot-track"><div class="boot-fill"></div></div>
+</div>
+
+<!-- TOP BAR -->
+<div id="topbar">
+  <div class="tb-dots">
+    <div class="tb-dot r"></div>
+    <div class="tb-dot y"></div>
+    <div class="tb-dot g"></div>
+  </div>
+  <div class="tb-title" id="tbTitle">about.me — Sahil Koshti</div>
+  <div class="tb-right">
+    <div class="tb-status"><div class="tb-dot-green"></div><span>Open to work</span></div>
+    <span id="clock"></span>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <div class="sb-profile">
+      <div class="sb-avatar">
+        SK
+        <div class="sb-avail"></div>
+      </div>
+      <div class="sb-name">Sahil Koshti</div>
+      <div class="sb-role">Full Stack Mobile Dev<br/>& Applied AI Engineer</div>
+      <div class="sb-loc">📍 Ahmedabad, Gujarat</div>
+    </div>
+
+    <nav class="sb-nav">
+      <div class="sb-section-label">Navigation</div>
+      <div class="sb-item active" data-page="home" onclick="goPage('home',this)">
+        <span class="sb-icon">🏠</span> Home
+      </div>
+      <div class="sb-item" data-page="projects" onclick="goPage('projects',this)">
+        <span class="sb-icon">🚀</span> Projects <span class="sb-badge">5</span>
+      </div>
+      <div class="sb-item" data-page="skills" onclick="goPage('skills',this)">
+        <span class="sb-icon">⚡</span> Tech Stack
+      </div>
+      <div class="sb-item" data-page="experience" onclick="goPage('experience',this)">
+        <span class="sb-icon">🎓</span> Experience
+      </div>
+      <div class="sb-item" data-page="github" onclick="goPage('github',this)">
+        <span class="sb-icon">🐙</span> GitHub
+      </div>
+      <div class="sb-item" data-page="terminal" onclick="goPage('terminal',this)">
+        <span class="sb-icon">⌨️</span> Terminal
+      </div>
+      <div class="sb-item" data-page="contact" onclick="goPage('contact',this)">
+        <span class="sb-icon">✉️</span> Contact
+      </div>
+    </nav>
+
+    <div class="sb-bottom">
+      <div class="sb-contact-links">
+        <div class="sb-link" onclick="window.open('https://github.com/Sahil7103','_blank')" title="GitHub">🐙</div>
+        <div class="sb-link" onclick="window.open('https://www.linkedin.com/in/sahil-koshti-726523289/','_blank')" title="LinkedIn">💼</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div id="main">
+
+    <!-- ══ HOME ══ -->
+    <div class="page active" id="page-home">
+      <div class="home-hero">
+        <div class="hero-name">Sahil Koshti</div>
+        <div class="hero-role">Full Stack Mobile Developer · Applied AI Engineer</div>
+        <div class="hero-bio">
+          Building production-grade mobile apps with Flutter and intelligent AI backends powered by LLMs. Currently interning at <strong style="color:var(--text)">BOSC Tech Labs</strong> and completed my B.Sc.IT and  M.Sc. IT at GLS University, Ahmedabad. Passionate about bridging elegant mobile UX with powerful GenAI systems.
+        </div>
+        <div class="hero-badges">
+          <span class="hero-badge">📱 Flutter / Dart</span>
+          <span class="hero-badge">🤖 LLaMA-3 · RAG · GenAI</span>
+          <span class="hero-badge">⚙️ Django · FastAPI</span>
+          <span class="hero-badge">🧠 LLM Applications</span>
+          <span class="hero-badge">📍 Ahmedabad, India</span>
+        </div>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-n">5+</div><div class="stat-l">Projects Built</div></div>
+        <div class="stat-card"><div class="stat-n">8.06</div><div class="stat-l">B.Sc. CGPA</div></div>
+        <div class="stat-card"><div class="stat-n">8.57</div><div class="stat-l">M.Sc. CGPA</div></div>
+        <div class="stat-card"><div class="stat-n">3+</div><div class="stat-l">AI/LLM Apps</div></div>
+        <div class="stat-card"><div class="stat-n">2+</div><div class="stat-l">Years Coding</div></div>
+      </div>
+
+      <div class="section-label">Quick Access</div>
+      <div class="quick-actions">
+        <div class="qa-btn" onclick="goPage('projects', document.querySelector('[data-page=projects]'))">
+          <div class="qa-icon">🚀</div>
+          <div><div class="qa-label">View Projects</div><div class="qa-sub">5 builds · AI, Mobile, Web</div></div>
+        </div>
+        <div class="qa-btn" onclick="goPage('skills', document.querySelector('[data-page=skills]'))">
+          <div class="qa-icon">⚡</div>
+          <div><div class="qa-label">Tech Stack</div><div class="qa-sub">Flutter, LLMs, Django + more</div></div>
+        </div>
+        <div class="qa-btn" onclick="goPage('experience', document.querySelector('[data-page=experience]'))">
+          <div class="qa-icon">🎓</div>
+          <div><div class="qa-label">Experience & Education</div><div class="qa-sub">BOSC Tech Labs · GLS University</div></div>
+        </div>
+        <div class="qa-btn" onclick="goPage('contact', document.querySelector('[data-page=contact]'))">
+          <div class="qa-icon">✉️</div>
+          <div><div class="qa-label">Get in Touch</div><div class="qa-sub">Open to internships & roles</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PROJECTS ══ -->
+    <div class="page" id="page-projects">
+      <div class="page-header">
+        <div class="page-title">Projects</div>
+        <div class="page-sub">5 production-grade builds across mobile, AI, and full stack</div>
+      </div>
+      <div class="proj-grid">
+
+        <div class="proj-card featured">
+          <div class="ai-chip">🤖 GenAI · Full Stack · Featured</div>
+          <div class="proj-top">
+            <div class="proj-title">AI Resume &amp; Career Assistant</div>
+            <div class="proj-year">2025</div>
+          </div>
+          <div class="proj-desc">Production-grade AI platform using LLaMA-3 (8B Instruct) for resume analysis, ATS scoring, skill-gap detection, and document-grounded conversational AI. Implemented Retrieval-Augmented Generation (RAG) with multi-document context, persistent session memory, and real-time streaming LLM responses with hallucination-free outputs via strict prompt safety guardrails.</div>
+          <div class="tags">
+            <span class="tag">LLaMA-3 8B</span><span class="tag">RAG</span><span class="tag">Prompt Eng.</span>
+            <span class="tag green">Django</span><span class="tag green">FastAPI</span>
+            <span class="tag blue">HuggingFace</span><span class="tag blue">Streaming LLM</span>
+            <span class="tag orange">MySQL</span>
+          </div>
+          <div class="proj-highlight">✦ Cut manual resume review effort by ~80% · PDF/DOCX report generation</div>
+        </div>
+
+        <div class="proj-card">
+          <div class="ai-chip">📱 Mobile · Full Stack</div>
+          <div class="proj-top">
+            <div class="proj-title">Local Grocery Mart App</div>
+            <div class="proj-year">2024–2025</div>
+          </div>
+          <div class="proj-desc">Multi-role grocery application serving Customer, Shopkeeper, Admin, and Delivery Partner. Features UPI payment integration, OTP-based password reset, product & shop management, and real-time order tracking with dedicated admin/shopkeeper dashboards.</div>
+          <div class="tags">
+            <span class="tag">Flutter</span><span class="tag">Dart</span>
+            <span class="tag green">Django</span><span class="tag orange">PHP</span><span class="tag orange">MySQL</span>
+          </div>
+          <div class="proj-highlight">✦ 4 user roles · UPI payments · Real-time order tracking</div>
+        </div>
+
+        <div class="proj-card">
+          <div class="ai-chip">🧠 ML · NLP</div>
+          <div class="proj-top">
+            <div class="proj-title">AI-Powered Expense Management System</div>
+            <div class="proj-year">2025</div>
+          </div>
+          <div class="proj-desc">Intelligent expense management platform with automated ML-driven transaction classification using Naive Bayes and SVM classifiers. TF-IDF vectorization for NLP-based feature engineering and Linear Regression for future spending prediction. Auto-updating dashboard with live ML classification.</div>
+          <div class="tags">
+            <span class="tag">scikit-learn</span><span class="tag">TF-IDF</span><span class="tag">Naive Bayes</span><span class="tag">SVM</span>
+            <span class="tag green">Django</span><span class="tag blue">FastAPI</span><span class="tag orange">MySQL</span>
+          </div>
+          <div class="proj-highlight">✦ 100% automated categorization · 10+ spending categories</div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-top">
+            <div class="proj-title">Have A Ride — Cab Booking System</div>
+            <div class="proj-year">2023–2024</div>
+          </div>
+          <div class="proj-desc">Final-year scalable web application with real-time ride tracking, secure authentication, and personalized route planning. Built responsive UI with Django templates and designed clean REST APIs for smooth user experience.</div>
+          <div class="tags">
+            <span class="tag green">Django</span><span class="tag">Python</span><span class="tag orange">MySQL</span>
+          </div>
+        </div>
+
+        <div class="proj-card">
+          <div class="ai-chip">🎙️ NLP · LLM</div>
+          <div class="proj-top">
+            <div class="proj-title">Jarvis-AI — Conversational Voice Assistant</div>
+            <div class="proj-year">2023–2024</div>
+          </div>
+          <div class="proj-desc">End-to-end conversational voice assistant combining real-time SpeechRecognition with OpenAI GPT for natural language understanding. Modular NLP pipeline for intent classification and task automation. Integrated Wikipedia API for live knowledge retrieval.</div>
+          <div class="tags">
+            <span class="tag">OpenAI API</span><span class="tag">SpeechRecognition</span>
+            <span class="tag">Python</span><span class="tag blue">Wikipedia API</span><span class="tag blue">NLP Pipeline</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ SKILLS ══ -->
+    <div class="page" id="page-skills">
+      <div class="page-header">
+        <div class="page-title">Tech Stack</div>
+        <div class="page-sub">Full spectrum from mobile to AI backends</div>
+      </div>
+      <div class="skills-sections">
+
+        <div class="skill-block">
+          <div class="skill-block-title">📱 Mobile Development</div>
+          <div class="skill-pills">
+            <div class="skill-pill"><div class="sp-dot" style="background:#54c5f8"></div>Flutter</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:#00b4ab"></div>Dart</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:#ea8220"></div>Android</div>
+             <div class="skill-pill"><div class="sp-dot" style="background:#fcff62"></div>IOS</div>
+          </div>
+        </div>
+
+        <div class="skill-block">
+          <div class="skill-block-title">🤖 AI / ML / GenAI</div>
+          <div class="skill-pills">
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--accent2)"></div>LLaMA-3 (8B Instruct)</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--accent2)"></div>OpenAI API (GPT-4)</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--accent2)"></div>RAG (Retrieval-Augmented Generation)</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--accent2)"></div>Prompt Engineering</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--blue)"></div>HuggingFace Transformers</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--blue)"></div>scikit-learn</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--blue)"></div>Naive Bayes / SVM</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--blue)"></div>TF-IDF Vectorization</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--blue)"></div>NLP Pipelines</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--green)"></div>Streaming LLM</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--green)"></div>Session Memory</div>
+          </div>
+        </div>
+
+        <div class="skill-block">
+          <div class="skill-block-title">⚙️ Backend & APIs</div>
+          <div class="skill-pills">
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--green)"></div>Django</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--green)"></div>FastAPI</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--green)"></div>Spring Boot</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--yellow)"></div>REST APIs</div>
+          </div>
+        </div>
+
+        <div class="skill-block">
+          <div class="skill-block-title">💻 Languages</div>
+          <div class="skill-pills">
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--yellow)"></div>Python (Primary)</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--yellow)"></div>Dart</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--orange)"></div>Java</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:#54c5f8"></div>Dart</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--blue)"></div>C</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--blue)"></div>C++</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--pink)"></div>R</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--text2)"></div>HTML / CSS</div>
+          </div>
+        </div>
+
+        <div class="skill-block">
+          <div class="skill-block-title">🗄️ Database & Tools</div>
+          <div class="skill-pills">
+            <div class="skill-pill"><div class="sp-dot" style="background:#f29111"></div>MySQL</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:#6e49f7"></div>MongoDB</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:#63ff95"></div>FireStore</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:#ff41b3"></div>FireBase</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:#f34f29"></div>Git / GitHub</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--blue)"></div>VS Code</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:#ff6c37"></div>Postman</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--pink)"></div>Figma</div>
+          </div>
+        </div>
+
+        <div class="skill-block">
+          <div class="skill-block-title">🧩 CS Concepts</div>
+          <div class="skill-pills">
+            <div class="skill-pill">OOP</div>
+            <div class="skill-pill">Data Structures & Algorithms</div>
+            <div class="skill-pill">Operating Systems</div>
+            <div class="skill-pill">Networking</div>
+            <div class="skill-pill">System Design</div>
+            <div class="skill-pill">AI / ML Fundamentals</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ EXPERIENCE ══ -->
+    <div class="page" id="page-experience">
+      <div class="page-header">
+        <div class="page-title">Experience &amp; Education</div>
+        <div class="page-sub">Work history, academic background, and soft skills</div>
+      </div>
+
+      <div class="section-label">Work Experience</div>
+      <div class="exp-timeline">
+        <div class="exp-card">
+          <div class="exp-header">
+            <div class="exp-role">Software Developer Intern</div>
+            <div class="exp-period">Dec 2025 – Present</div>
+          </div>
+          <div class="exp-company">🏢 BOSC Tech Labs Pvt. Ltd.</div>
+          <div class="exp-loc">📍 Gandhinagar, Gujarat · On-site</div>
+          <ul class="exp-bullets">
+            <li>Contributed to cross-platform mobile app development for kid's coloring book and system design,UI/UX in a professional product-based software environment.</li>
+            <li>Collaborated with senior engineers on full-stack workflows following agile development practices.</li>
+            <li>Gained hands-on exposure to production-grade codebases, code reviews, and collaborative version control with Git.</li>
+          </ul>
+          <div class="tags" style="margin-top:12px">
+            <span class="tag green">FLUTTER</span><span class="tag green">DART</span><span class="tag green">REST API</span><span class="tag">Git</span><span class="tag blue">RIVERPOD</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-divider"></div>
+      <div class="section-label">Education</div>
+      <div class="edu-cards">
+        <div class="edu-card">
+          <div class="edu-left">
+            <div class="edu-deg">M.Sc. Information Technology</div>
+            <div class="edu-uni">🏛️ GLS University, Ahmedabad</div>
+          </div>
+          <div class="edu-right">
+            <div class="edu-year">2024 – 2026</div>
+            <div class="edu-grade">CGPA 8.57</div>
+          </div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-left">
+            <div class="edu-deg">B.Sc. Information Technology</div>
+            <div class="edu-uni">🏛️ GLS University, Ahmedabad</div>
+          </div>
+          <div class="edu-right">
+            <div class="edu-year">2021 – 2024</div>
+            <div class="edu-grade">CGPA 8.06</div>
+          </div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-left">
+            <div class="edu-deg">HSC — Science</div>
+            <div class="edu-uni">📚 Kum-Kum English School, Ahmedabad</div>
+          </div>
+          <div class="edu-right">
+            <div class="edu-year">2021</div>
+            <div class="edu-grade">64.26%</div>
+          </div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-left">
+            <div class="edu-deg">SSC</div>
+            <div class="edu-uni">📚 Kum-Kum English School, Ahmedabad</div>
+          </div>
+          <div class="edu-right">
+            <div class="edu-year">2019</div>
+            <div class="edu-grade">70.16%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-divider"></div>
+      <div class="section-label">Soft Skills</div>
+      <div class="soft-skills">
+        <div class="soft-pill">💬 Communication</div>
+        <div class="soft-pill">🎯 Leadership</div>
+        <div class="soft-pill">⚡ Multitasking</div>
+        <div class="soft-pill">🤝 Team Collaboration</div>
+        <div class="soft-pill">🔍 Attention to Detail</div>
+        <div class="soft-pill">🧩 Problem Solving</div>
+      </div>
+    </div>
+
+    <!-- ══ GITHUB ══ -->
+    <div class="page" id="page-github">
+      <div class="page-header">
+        <div class="page-title">GitHub</div>
+        <div class="page-sub">Open source projects and contributions</div>
+      </div>
+
+      <div class="gh-profile-card">
+        <div class="gh-avatar">SK</div>
+        <div>
+          <div class="gh-name">Sahil Koshti</div>
+          <div class="gh-handle">@Sahil7103</div>
+          <div class="gh-stats-row">
+            <div><div class="gh-stat-n">5+</div><div class="gh-stat-l">Repos</div></div>
+            <div><div class="gh-stat-n">Active</div><div class="gh-stat-l">Status</div></div>
+          </div>
+          <div class="gh-cta" onclick="window.open('https://github.com/Sahil7103','_blank')">
+            🐙 View Full Profile on GitHub ↗
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label">Pinned Repositories</div>
+      <div class="repo-grid">
+        <div class="repo-card" onclick="window.open('https://github.com/Sahil7103','_blank')">
+          <div class="repo-name">ai-resume-career-assistant</div>
+          <div class="repo-desc">Production-grade LLaMA-3 powered resume analysis platform with ATS scoring, RAG-based career chat, and streaming LLM responses.</div>
+          <div class="repo-footer">
+            <div class="repo-lang"><div class="lang-dot" style="background:var(--yellow)"></div>Python</div>
+            <span class="tag" style="font-size:10px">GenAI</span>
+            <span class="tag blue" style="font-size:10px">LLaMA-3</span>
+          </div>
+        </div>
+        <div class="repo-card" onclick="window.open('https://github.com/Sahil7103','_blank')">
+          <div class="repo-name">local-grocery-mart-app</div>
+          <div class="repo-desc">Multi-role Flutter grocery app with Django backend, UPI payment integration, OTP auth, and real-time order tracking.</div>
+          <div class="repo-footer">
+            <div class="repo-lang"><div class="lang-dot" style="background:#54c5f8"></div>Dart / Flutter</div>
+            <span class="tag green" style="font-size:10px">Mobile</span>
+          </div>
+        </div>
+        <div class="repo-card" onclick="window.open('https://github.com/Sahil7103','_blank')">
+          <div class="repo-name">ai-expense-management</div>
+          <div class="repo-desc">ML-powered expense tracker with Naive Bayes/SVM classification, TF-IDF NLP, and Linear Regression spending forecasts.</div>
+          <div class="repo-footer">
+            <div class="repo-lang"><div class="lang-dot" style="background:var(--yellow)"></div>Python</div>
+            <span class="tag" style="font-size:10px">ML · NLP</span>
+          </div>
+        </div>
+        <div class="repo-card" onclick="window.open('https://github.com/Sahil7103','_blank')">
+          <div class="repo-name">have-a-ride-cab-booking</div>
+          <div class="repo-desc">Scalable Django cab booking system with real-time tracking, secure authentication, and personalized route planning.</div>
+          <div class="repo-footer">
+            <div class="repo-lang"><div class="lang-dot" style="background:var(--green)"></div>Python</div>
+            <span class="tag green" style="font-size:10px">Django</span>
+          </div>
+        </div>
+        <div class="repo-card" onclick="window.open('https://github.com/Sahil7103','_blank')">
+          <div class="repo-name">jarvis-ai-voice-assistant</div>
+          <div class="repo-desc">Conversational voice assistant with OpenAI GPT, real-time SpeechRecognition, modular NLP pipeline and Wikipedia API.</div>
+          <div class="repo-footer">
+            <div class="repo-lang"><div class="lang-dot" style="background:var(--yellow)"></div>Python</div>
+            <span class="tag" style="font-size:10px">LLM</span>
+            <span class="tag blue" style="font-size:10px">NLP</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ TERMINAL ══ -->
+    <div class="page" id="page-terminal">
+      <div class="page-header">
+        <div class="page-title">Terminal</div>
+        <div class="page-sub">Interactive shell — explore Sahil's profile with commands</div>
+      </div>
+      <div class="term-window">
+        <div class="term-tbar">
+          <div class="term-tbar-dots">
+            <div class="term-tbar-dot" style="background:#ff5f57"></div>
+            <div class="term-tbar-dot" style="background:#febc2e"></div>
+            <div class="term-tbar-dot" style="background:#28c840"></div>
+          </div>
+          <div class="term-tbar-title">bash — sahil@dev</div>
+        </div>
+        <div class="term-area" id="termArea">
+          <div class="tl"><span class="ta">Sahil OS v1.0</span> — Full Stack Mobile &amp; AI Edition</div>
+          <div class="tl to">Type <span class="tc">help</span> to see available commands.</div>
+          <div class="tl"> </div>
+          <div id="termOut"></div>
+        </div>
+        <div class="term-input-row">
+          <span class="tp">sahil@dev</span>&nbsp;<span class="to">~</span>&nbsp;<span class="to">$</span>&nbsp;
+          <input class="tinput" id="termIn" autocomplete="off" spellcheck="false" placeholder="type a command..."/>
+        </div>
+        <div class="term-hint">
+          <div class="thint" onclick="runCmd('help')">help</div>
+          <div class="thint" onclick="runCmd('about')">about</div>
+          <div class="thint" onclick="runCmd('skills')">skills</div>
+          <div class="thint" onclick="runCmd('projects')">projects</div>
+          <div class="thint" onclick="runCmd('experience')">experience</div>
+          <div class="thint" onclick="runCmd('contact')">contact</div>
+          <div class="thint" onclick="runCmd('clear')">clear</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ CONTACT ══ -->
+    <div class="page" id="page-contact">
+      <div class="page-header">
+        <div class="page-title">Contact</div>
+        <div class="page-sub">Let's build something together</div>
+      </div>
+
+      <div class="contact-hero">
+        <div class="contact-hero-title">Open to Opportunities 🚀</div>
+        <div class="contact-hero-sub">Available for internships, freelance projects, and full-time roles in mobile development &amp; AI engineering</div>
+      </div>
+
+      <div class="section-label">Reach Out</div>
+      <div class="contact-grid">
+        <div class="contact-item" onclick="window.location.href='mailto:sahilkoshti1354@gmail.com'">
+          <div class="contact-icon" style="background:rgba(124,106,247,.1)">📧</div>
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-val">sahilkoshti1354@gmail.com</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon" style="background:rgba(52,211,153,.08)">📞</div>
+          <div>
+            <div class="contact-label">Phone</div>
+            <div class="contact-val">+91 9974745061</div>
+          </div>
+        </div>
+        <div class="contact-item" onclick="window.open('https://github.com/Sahil7103','_blank')">
+          <div class="contact-icon" style="background:rgba(255,255,255,.04)">🐙</div>
+          <div>
+            <div class="contact-label">GitHub</div>
+            <div class="contact-val">github.com/Sahil7103</div>
+          </div>
+        </div>
+        <div class="contact-item" onclick="window.open('https://www.linkedin.com/in/sahil-koshti-726523289/','_blank')">
+          <div class="contact-icon" style="background:rgba(96,165,250,.08)">💼</div>
+          <div>
+            <div class="contact-label">LinkedIn</div>
+            <div class="contact-val">linkedin.com/in/sahilkoshti</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon" style="background:rgba(251,146,60,.08)">📍</div>
+          <div>
+            <div class="contact-label">Location</div>
+            <div class="contact-val">Ahmedabad, Gujarat, India</div>
+          </div>
+        </div>
+        <div class="contact-item" onclick="goPage('projects', document.querySelector('[data-page=projects]'))">
+          <div class="contact-icon" style="background:rgba(244,114,182,.08)">🚀</div>
+          <div>
+            <div class="contact-label">Portfolio</div>
+            <div class="contact-val">View all 5 projects →</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:8px">
+        <div class="section-label">Current Status</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;gap:10px;font-size:13px">
+            <span style="color:var(--green)">●</span>
+            <span style="color:var(--text)">Software Developer Intern</span>
+            <span style="color:var(--text2)">@ BOSC Tech Labs · Gandhinagar</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:13px">
+            <span style="color:var(--blue)">●</span>
+            <span style="color:var(--text)">M.Sc. IT </span>
+            <span style="color:var(--text2)">@ GLS University, Ahmedabad</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:13px">
+            <span style="color:var(--accent2)">●</span>
+            <span style="color:var(--text)">Working on Flutter mobile app</span>
+            <span style="color:var(--text2)">· Kid's Coloring and Sketching App (in progress)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end main -->
+</div><!-- end app -->
+
+<!-- Mobile Bottom Nav -->
+<div id="mobile-nav">
+  <div class="mn-item active" data-page="home" onclick="goPage('home',this)"><div class="mn-icon">🏠</div>Home</div>
+  <div class="mn-item" data-page="projects" onclick="goPage('projects',this)"><div class="mn-icon">🚀</div>Projects</div>
+  <div class="mn-item" data-page="skills" onclick="goPage('skills',this)"><div class="mn-icon">⚡</div>Skills</div>
+  <div class="mn-item" data-page="experience" onclick="goPage('experience',this)"><div class="mn-icon">🎓</div>Exp</div>
+  <div class="mn-item" data-page="contact" onclick="goPage('contact',this)"><div class="mn-icon">✉️</div>Contact</div>
+</div>
+
+<script>
+// Clock
+function tick(){
+  const n=new Date(),h=String(n.getHours()).padStart(2,'0'),m=String(n.getMinutes()).padStart(2,'0');
+  document.getElementById('clock').textContent=h+':'+m;
+}
+tick();setInterval(tick,15000);
+
+// Boot
+setTimeout(()=>{
+  const b=document.getElementById('boot');
+  b.classList.add('out');
+  setTimeout(()=>b.style.display='none',500);
+},2000);
+
+// Page navigation
+const pageTitles={
+  home:'about.me — Sahil Koshti',
+  projects:'projects — 5 builds',
+  skills:'tech-stack.json',
+  experience:'experience & education',
+  github:'github — @Sahil7103',
+  terminal:'terminal — bash',
+  contact:'contact.info'
+};
+function goPage(id, el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const page=document.getElementById('page-'+id);
+  if(page){page.classList.add('active');document.getElementById('main').scrollTop=0;}
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  document.querySelectorAll('.mn-item').forEach(i=>i.classList.remove('active'));
+  document.querySelectorAll('[data-page="'+id+'"]').forEach(i=>i.classList.add('active'));
+  document.getElementById('tbTitle').textContent=pageTitles[id]||id;
+  if(id==='terminal')setTimeout(()=>document.getElementById('termIn').focus(),100);
+}
+
+// Terminal
+const CMDS={
+  help:`<span class="ta">Commands:</span>
+  <span class="tw">about</span>      — Who is Sahil?
+  <span class="tw">skills</span>     — Full tech stack
+  <span class="tw">projects</span>   — All 5 projects
+  <span class="tw">experience</span> — Work experience
+  <span class="tw">education</span>  — Academic background
+  <span class="tw">contact</span>    — How to reach Sahil
+  <span class="tw">github</span>     — GitHub profile
+  <span class="tw">clear</span>      — Clear screen`,
+  about:`<span class="ta">Sahil Koshti</span>
+  Role:     Full Stack Mobile Dev & Applied AI Engineer
+  Location: Ahmedabad, Gujarat, India
+  Status:   <span style="color:var(--green)">● Open to opportunities</span>
+  Current:  Intern @ BOSC Tech Labs · M.Sc. IT @ GLS University`,
+  skills:`<span class="ta">Tech Stack:</span>
+  Mobile:   Flutter, Dart
+  GenAI:    LLaMA-3, OpenAI GPT-4, RAG, HuggingFace, Prompt Eng.
+  ML/NLP:   scikit-learn, Naive Bayes, SVM, TF-IDF
+  Backend:  Django, FastAPI, Spring Boot, REST APIs
+  Languages:Python, Java, Dart, C, C++, R
+  Database: MySQL
+  Tools:    Git, VS Code, Figma, Postman`,
+  projects:`<span class="ta">Projects (5):</span>
+  1. AI Resume & Career Assistant    [LLaMA-3 · RAG · Django · FastAPI]
+  2. Local Grocery Mart App          [Flutter · Django · UPI Payments]
+  3. AI-Powered Expense Manager      [scikit-learn · TF-IDF · SVM]
+  4. Have A Ride — Cab Booking       [Django · Python · MySQL]
+  5. Jarvis-AI Voice Assistant       [OpenAI · SpeechRecognition · NLP]`,
+  experience:`<span class="ta">Experience:</span>
+  Software Developer Intern
+  BOSC Tech Labs · Gandhinagar · Dec 2025–Present
+  Backend REST API dev, agile workflows, code reviews`,
+  education:`<span class="ta">Education:</span>
+  M.Sc. IT  — GLS University (2024–Present)
+  B.Sc. IT  — GLS University (2021–2024) · CGPA: <span class="ta">8.06</span>
+  HSC       — Kum-Kum English School (2021) · 64.26%
+  SSC       — Kum-Kum English School (2019) · 70.16%`,
+  contact:`<span class="ta">Contact:</span>
+  Email:    sahilkoshti1354@gmail.com
+  Phone:    +91 9974745061
+  GitHub:   github.com/Sahil7103
+  LinkedIn: shorturl.at/KZZJi
+  Location: Ahmedabad, Gujarat, India`,
+  github:`Opening GitHub profile in new tab...`
+};
+
+function runCmd(val){
+  val=val.trim().toLowerCase();
+  if(!val)return;
+  const out=document.getElementById('termOut');
+  const area=document.getElementById('termArea');
+  const prompt=`<div class="tl"><span class="tp">sahil@dev</span> <span class="to">~</span> <span class="to">$</span> <span class="tc">${val}</span></div>`;
+  if(val==='clear'){out.innerHTML='';return;}
+  if(CMDS[val]!==undefined){
+    if(val==='github'){
+      out.innerHTML+=prompt+`<div class="tl to">${CMDS[val]}</div><div class="tl"> </div>`;
+      window.open('https://github.com/Sahil7103','_blank');
+    } else {
+      out.innerHTML+=prompt+`<div class="tl to" style="white-space:pre-line">${CMDS[val]}</div><div class="tl"> </div>`;
+    }
+  } else {
+    out.innerHTML+=prompt+`<div class="tl te">command not found: ${val}. Try 'help'</div><div class="tl"> </div>`;
+  }
+  area.scrollTop=area.scrollHeight;
+}
+
+document.getElementById('termIn').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){const v=document.getElementById('termIn').value;document.getElementById('termIn').value='';runCmd(v);}
+});
+</script>
+</body>
+</html>
