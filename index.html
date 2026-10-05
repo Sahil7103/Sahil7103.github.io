@@ -195,6 +195,30 @@ a:focus-visible,button:focus-visible,.pixel:focus-visible,.sb-item:focus-visible
 .proj-highlight{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-family:var(--mono);color:var(--teal);background:rgba(31,190,148,.07);border:1px solid rgba(31,190,148,.18);border-radius:6px;padding:5px 10px;margin-top:12px}
 .ai-chip{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-family:var(--mono);background:rgba(156,124,240,.1);color:var(--violet);border:1px solid rgba(156,124,240,.22);border-radius:20px;padding:2px 9px;margin-bottom:8px}
 
+/* ─── ARYA ─── */
+.live-badge{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-family:var(--mono);color:var(--coral);background:rgba(255,106,77,.09);border:1px solid rgba(255,106,77,.25);border-radius:20px;padding:2px 10px;margin-left:6px}
+.live-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--coral);box-shadow:0 0 6px var(--coral)}
+.store-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.store-link{font-size:11.5px;font-family:var(--mono);color:var(--text);background:var(--surface2);border:1px solid var(--border2);border-radius:6px;padding:5px 12px;transition:all .15s}
+.store-link:hover{border-color:var(--accent);color:var(--accent)}
+.arya-demo{margin-top:14px;padding:14px;border:1px dashed var(--border2);border-radius:var(--rad2);background:var(--bg3)}
+.ad-row{display:flex;flex-wrap:wrap;align-items:center;gap:7px}
+.ad-btn{font-size:11px;font-family:var(--mono);color:var(--text2);background:var(--surface);border:1px solid var(--border2);border-radius:6px;padding:4px 10px}
+.ad-btn.on{color:var(--accent);border-color:rgba(94,124,255,.4);background:var(--accent-glow)}
+.ad-bars{display:flex;align-items:flex-end;gap:3px;height:30px;margin:12px 0 8px}
+.ad-bars i{flex:1;height:20%;border-radius:2px;background:var(--accent);transition:opacity .2s}
+.ad-bars i:nth-child(even){background:var(--violet)}
+.ad-bars i:nth-child(5n){background:var(--gold)}
+.ad-bars.play i{animation:adb 1s ease-in-out infinite alternate}
+.ad-bars.play i:nth-child(3n){animation-duration:.7s}
+.ad-bars.play i:nth-child(4n){animation-duration:1.3s}
+.ad-bars.no-voice i:nth-child(odd):not(:nth-child(5n)){opacity:.12}
+.ad-bars.no-music i:nth-child(even):not(:nth-child(5n)){opacity:.12}
+.ad-bars.no-sfx i:nth-child(5n){opacity:.12}
+@keyframes adb{from{height:15%}to{height:100%}}
+.ad-line{font-size:12.5px;color:var(--text2);line-height:1.6;min-height:40px}
+.ad-note{font-size:10.5px;color:var(--text3);font-family:var(--mono);margin-top:6px}
+
 /* ─── SKILLS ─── */
 .skills-sections{display:flex;flex-direction:column;gap:14px}
 .skill-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--rad2);padding:18px}
@@ -371,7 +395,7 @@ body.dim-mode #topbar{filter:brightness(.85)}
     <nav class="sb-nav">
       <div class="sb-section-label">Navigation</div>
       <div class="sb-item active" data-page="home" onclick="goPage('home',this)"><span class="sb-dot"></span> Home</div>
-      <div class="sb-item" data-page="projects" onclick="goPage('projects',this)"><span class="sb-dot"></span> Projects <span class="sb-badge">5</span></div>
+      <div class="sb-item" data-page="projects" onclick="goPage('projects',this)"><span class="sb-dot"></span> Projects <span class="sb-badge">7</span></div>
       <div class="sb-item" data-page="skills" onclick="goPage('skills',this)"><span class="sb-dot"></span> Tech Stack</div>
       <div class="sb-item" data-page="experience" onclick="goPage('experience',this)"><span class="sb-dot"></span> Experience</div>
       <div class="sb-item" data-page="github" onclick="goPage('github',this)"><span class="sb-dot"></span> GitHub</div>
@@ -433,7 +457,7 @@ body.dim-mode #topbar{filter:brightness(.85)}
       <div class="quick-actions">
         <div class="qa-btn" onclick="goPage('projects', document.querySelector('[data-page=projects]'))">
           <div class="qa-dot" style="background:var(--accent)"></div>
-          <div><div class="qa-label">View Projects</div><div class="qa-sub">5 builds · AI, Mobile, Web</div></div>
+          <div><div class="qa-label">View Projects</div><div class="qa-sub">6 builds · AI, Mobile, Web</div></div>
         </div>
         <div class="qa-btn" onclick="goPage('skills', document.querySelector('[data-page=skills]'))">
           <div class="qa-dot" style="background:var(--coral)"></div>
@@ -454,9 +478,44 @@ body.dim-mode #topbar{filter:brightness(.85)}
     <div class="page" id="page-projects">
       <div class="page-header">
         <div class="page-title">Projects</div>
-        <div class="page-sub">5 production-grade builds across mobile, AI, and full stack</div>
+        <div class="page-sub">7 production-grade builds across mobile, AI, and full stack</div>
       </div>
       <div class="proj-grid">
+        <div class="proj-card featured">
+          <div class="ai-chip">Mobile · Audio</div><span class="live-badge">Live on iOS &amp; Android</span>
+          <div class="proj-top"><div class="proj-title">Arya: Kids Bedtime Stories</div><div class="proj-year">2026</div></div>
+          <div class="proj-desc">Bedtime audio-story app for kids, built at BOSC Tech Labs. I produced the entire preloaded story library — converting scripts into narrated Hindi and English speech with ElevenLabs, then layering background music and sound effects on every story.</div>
+          <div class="tags"><span class="tag violet">ElevenLabs</span><span class="tag">Text-to-Speech</span><span class="tag teal">Audio Production</span><span class="tag gold">Hindi + English</span></div>
+          <div class="proj-highlight">★ 4.3 rating · 5K+ downloads · Live on Google Play &amp; App Store</div>
+          <div class="store-links">
+            <a class="store-link" href="https://play.google.com/store/apps/details?id=com.bosc.arya.bedtime.story" target="_blank" rel="noopener">Google Play ↗</a>
+            <a class="store-link" href="https://apps.apple.com/in/app/arya-kids-bedtime-stories/id6805764841" target="_blank" rel="noopener">App Store ↗</a>
+          </div>
+          <div class="arya-demo">
+            <div class="ad-row">
+              <button class="ad-btn on" data-lang="en">English</button>
+              <button class="ad-btn" data-lang="hi">हिन्दी</button>
+              <button class="ad-btn" id="adPlay">▶ Play</button>
+              <button class="ad-btn on" data-layer="voice">Narration</button>
+              <button class="ad-btn on" data-layer="music">Music</button>
+              <button class="ad-btn on" data-layer="sfx">SFX</button>
+            </div>
+            <div class="ad-bars" id="adBars" aria-hidden="true"></div>
+            <div class="ad-line" id="adLine" lang="en">Once upon a time, a little fox followed the moonlight all the way home…</div>
+            <div class="ad-note">A tiny sketch of how each Arya story is layered — toggle the tracks (no real audio here).</div>
+          </div>
+        </div>
+        <div class="proj-card featured">
+          <div class="ai-chip">Mobile · Creative</div><span class="live-badge">Live on iOS &amp; Android</span>
+          <div class="proj-top"><div class="proj-title">ColorFill: Coloring Book Art</div><div class="proj-year">2026</div></div>
+          <div class="proj-desc">Coloring and sketching app built at BOSC Tech Labs, with 500+ designs, a smart flood-fill coloring mode, a freehand sketching canvas with symmetry and shape tools, and automatic timelapse recording of every session. I build production features for the Flutter app, including the flood-fill coloring flow.</div>
+          <div class="tags"><span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag teal">Riverpod</span><span class="tag gold">Flood-fill</span><span class="tag violet">Timelapse</span></div>
+          <div class="proj-highlight">★ 4.2 rating · 1K+ downloads · Live on Google Play &amp; App Store</div>
+          <div class="store-links">
+            <a class="store-link" href="https://play.google.com/store/apps/details?id=com.bosc.colorfill" target="_blank" rel="noopener">Google Play ↗</a>
+            <a class="store-link" href="https://apps.apple.com/in/app/colorfill-coloring-book-art/id6761256655" target="_blank" rel="noopener">App Store ↗</a>
+          </div>
+        </div>
         <div class="proj-card featured">
           <div class="ai-chip">GenAI · Full Stack · Featured</div>
           <div class="proj-top"><div class="proj-title">AI Resume &amp; Career Assistant</div><div class="proj-year">2025</div></div>
@@ -557,6 +616,7 @@ body.dim-mode #topbar{filter:brightness(.85)}
             <div class="skill-pill"><div class="sp-dot" style="background:var(--accent)"></div>VS Code</div>
             <div class="skill-pill"><div class="sp-dot" style="background:var(--coral)"></div>Postman</div>
             <div class="skill-pill"><div class="sp-dot" style="background:var(--violet)"></div>Figma</div>
+            <div class="skill-pill"><div class="sp-dot" style="background:var(--teal)"></div>ElevenLabs</div>
           </div>
         </div>
         <div class="skill-block">
@@ -581,6 +641,7 @@ body.dim-mode #topbar{filter:brightness(.85)}
           <div class="exp-loc">Gandhinagar, Gujarat · On-site</div>
           <ul class="exp-bullets">
             <li>Converted from intern to full-time Software Developer on the mobile application team, continuing to build production features for ColorFill, a kids' coloring application.</li>
+            <li>Produced the full Hindi and English audio story library for Arya: Kids Bedtime Stories using ElevenLabs text-to-speech, background music and sound effects — live on Google Play and the App Store.</li>
             <li>Develop and maintain cross-platform Flutter/Dart features while working with REST APIs and app-side state management.</li>
             <li>Collaborate with senior engineers on production codebases, code reviews, Git version control, and agile development practices.</li>
           </ul>
@@ -737,7 +798,7 @@ body.dim-mode #topbar{filter:brightness(.85)}
         </div>
         <div class="contact-item" onclick="goPage('projects', document.querySelector('[data-page=projects]'))">
           <div class="contact-icon" style="background:rgba(255,106,77,.1);color:var(--coral)">→</div>
-          <div><div class="contact-label">Portfolio</div><div class="contact-val">View all 5 projects</div></div>
+          <div><div class="contact-label">Portfolio</div><div class="contact-val">View all 7 projects</div></div>
         </div>
       </div>
       <div class="card" style="margin-top:8px">
@@ -767,7 +828,7 @@ tick();setInterval(tick,15000);
 
 setTimeout(()=>{const b=document.getElementById('boot');b.classList.add('out');setTimeout(()=>b.style.display='none',500)},1900);
 
-const pageTitles={home:'about.me — Sahil Koshti',projects:'projects — 5 builds',skills:'tech-stack.json',experience:'experience & education',github:'github — @Sahil7103',terminal:'terminal — bash',contact:'contact.info'};
+const pageTitles={home:'about.me — Sahil Koshti',projects:'projects — 6 builds',skills:'tech-stack.json',experience:'experience & education',github:'github — @Sahil7103',terminal:'terminal — bash',contact:'contact.info'};
 function goPage(id, el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const page=document.getElementById('page-'+id);
@@ -790,7 +851,7 @@ const CMDS={
   help:`<span class="ta">Commands:</span>
   <span class="tw">about</span>      — Who is Sahil?
   <span class="tw">skills</span>     — Full tech stack
-  <span class="tw">projects</span>   — All 5 projects
+  <span class="tw">projects</span>   — All 7 projects
   <span class="tw">experience</span> — Work experience
   <span class="tw">education</span>  — Academic background
   <span class="tw">contact</span>    — How to reach Sahil
@@ -809,12 +870,14 @@ const CMDS={
   Languages:Python, Dart, Java, C, C++, R
   Database: MySQL, MongoDB, Firestore, Firebase
   Tools:    GitHub, VS Code, Postman, Figma`,
-  projects:`<span class="ta">Projects (5):</span>
-  1. AI Resume & Career Assistant    [LLaMA-3 · RAG · Django · FastAPI]
-  2. Local Grocery Mart App          [Flutter · Django · UPI Payments]
-  3. AI-Powered Expense Manager      [scikit-learn · TF-IDF · SVM]
-  4. Have A Ride — Cab Booking       [Django · Python · MySQL]
-  5. Jarvis-AI Voice Assistant       [OpenAI · SpeechRecognition · NLP]`,
+  projects:`<span class="ta">Projects (7):</span>
+  1. Arya: Kids Bedtime Stories      [ElevenLabs · TTS · Hindi/English · Live iOS+Android]
+  2. ColorFill: Coloring Book Art    [Flutter · Dart · Flood-fill · Live iOS+Android]
+  3. AI Resume & Career Assistant    [LLaMA-3 · RAG · Django · FastAPI]
+  4. Local Grocery Mart App          [Flutter · Django · UPI Payments]
+  5. AI-Powered Expense Manager      [scikit-learn · TF-IDF · SVM]
+  6. Have A Ride — Cab Booking       [Django · Python · MySQL]
+  7. Jarvis-AI Voice Assistant       [OpenAI · SpeechRecognition · NLP]`,
   experience:`<span class="ta">Experience:</span>
   Software Developer
   BOSC Tech Labs · Gandhinagar · Jul 2026–Present
@@ -890,6 +953,25 @@ function buildHeart(){
 }
 buildHeart();
 document.getElementById('fillReset').addEventListener('click', ()=>{state.clear();buildHeart()});
+// Arya layered-audio sketch
+(function(){
+  const bars=document.getElementById('adBars'); if(!bars)return;
+  const line=document.getElementById('adLine'), play=document.getElementById('adPlay');
+  const T={en:'Once upon a time, a little fox followed the moonlight all the way home…',
+           hi:'एक समय की बात है, एक छोटी लोमड़ी चाँदनी के सहारे घर लौट रही थी…'};
+  bars.innerHTML='<i></i>'.repeat(24);
+  document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('[data-lang]').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); line.textContent=T[b.dataset.lang]; line.lang=b.dataset.lang;
+  }));
+  play.addEventListener('click',()=>{
+    const on=bars.classList.toggle('play'); play.classList.toggle('on',on);
+    play.textContent=on?'❚❚ Pause':'▶ Play';
+  });
+  document.querySelectorAll('[data-layer]').forEach(b=>b.addEventListener('click',()=>{
+    b.classList.toggle('on'); bars.classList.toggle('no-'+b.dataset.layer,!b.classList.contains('on'));
+  }));
+})();
 </script>
 </body>
 </html>
