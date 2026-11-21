@@ -355,6 +355,22 @@ body.dim-mode #topbar{filter:brightness(.85)}
 .mn-item{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:var(--text3);cursor:pointer;padding:4px 10px;border-radius:8px;transition:color .2s}
 .mn-item.active,.mn-item:hover{color:var(--accent)}
 .mn-icon{font-size:16px;width:16px;height:16px;display:inline-block;border-radius:3px}
+
+/* Contact form */
+.contact-form-card{margin-top:20px;margin-bottom:20px}
+.contact-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.contact-field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+.contact-field label{font-size:11px;color:var(--text2);font-family:var(--mono)}
+.contact-field input,.contact-field textarea{width:100%;background:var(--bg3);color:var(--text);border:1px solid var(--border2);border-radius:8px;padding:12px 13px;font:13px var(--sans);outline:none;transition:border-color .2s}
+.contact-field input:focus,.contact-field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.contact-field textarea{min-height:135px;resize:vertical}
+.contact-submit{background:var(--accent);color:#fff;border-radius:8px;padding:12px 22px;font-weight:600;font-size:13px;transition:background .2s}
+.contact-submit:hover{background:var(--accent-deep)}
+.contact-submit:disabled{opacity:.6;cursor:wait}
+.contact-feedback{font-size:12px;margin-top:12px;line-height:1.6}
+.contact-feedback.success{color:var(--teal)}.contact-feedback.error{color:var(--coral)}
+.contact-honeypot{position:absolute;left:-9999px;opacity:0;pointer-events:none}
+@media(max-width:700px){.contact-form-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -801,6 +817,25 @@ body.dim-mode #topbar{filter:brightness(.85)}
           <div><div class="contact-label">Portfolio</div><div class="contact-val">View all 7 projects</div></div>
         </div>
       </div>
+
+      <div class="card contact-form-card">
+        <div class="section-label">Send a Message</div>
+        <p style="font-size:12.5px;color:var(--text2);line-height:1.6;margin-bottom:18px">Have a project, opportunity, or question? Send me a message directly.</p>
+        <form id="portfolioContactForm" action="https://formsubmit.co/sahilkoshti1354@gmail.com" method="POST">
+          <input type="hidden" name="_subject" value="New message from Sahil's Portfolio">
+          <input type="hidden" name="_captcha" value="true">
+          <input type="hidden" name="_template" value="table">
+          <div class="contact-honeypot" aria-hidden="true"><label>Leave this empty<input type="text" name="_honey" tabindex="-1" autocomplete="off"></label></div>
+          <div class="contact-form-grid">
+            <div class="contact-field"><label for="contactName">Your Name</label><input id="contactName" name="name" type="text" placeholder="Your full name" autocomplete="name" maxlength="100" required></div>
+            <div class="contact-field"><label for="contactEmail">Email Address</label><input id="contactEmail" name="email" type="email" placeholder="you@example.com" autocomplete="email" maxlength="254" required></div>
+          </div>
+          <div class="contact-field"><label for="contactSubject">Subject</label><input id="contactSubject" name="subject" type="text" placeholder="What would you like to discuss?" maxlength="150" required></div>
+          <div class="contact-field"><label for="contactMessage">Your Message</label><textarea id="contactMessage" name="message" placeholder="Tell me about your project or opportunity..." maxlength="5000" required></textarea></div>
+          <button class="contact-submit" id="contactSubmit" type="submit">Send Message →</button>
+          <div id="contactFeedback" class="contact-feedback" role="status" aria-live="polite"></div>
+        </form>
+      </div>
       <div class="card" style="margin-top:8px">
         <div class="section-label">Current Status</div>
         <div style="display:flex;flex-direction:column;gap:10px">
@@ -971,6 +1006,35 @@ document.getElementById('fillReset').addEventListener('click', ()=>{state.clear(
   document.querySelectorAll('[data-layer]').forEach(b=>b.addEventListener('click',()=>{
     b.classList.toggle('on'); bars.classList.toggle('no-'+b.dataset.layer,!b.classList.contains('on'));
   }));
+})();
+</script>
+
+<script>
+(function(){
+  const form=document.getElementById('portfolioContactForm');
+  if(!form)return;
+  form.addEventListener('submit',async function(event){
+    event.preventDefault();
+    const button=document.getElementById('contactSubmit');
+    const feedback=document.getElementById('contactFeedback');
+    if(!form.reportValidity())return;
+    if(form.elements['_honey'].value)return;
+    button.disabled=true;button.textContent='Sending...';
+    feedback.className='contact-feedback';feedback.textContent='';
+    try{
+      const response=await fetch('https://formsubmit.co/ajax/sahilkoshti1354@gmail.com',{
+        method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}
+      });
+      const data=await response.json();
+      if(!response.ok||data.success===false||data.success==='false')throw new Error(data.message||'Unable to send the message.');
+      feedback.className='contact-feedback success';
+      feedback.textContent='Message submitted! If this is the first submission, please confirm the activation email from FormSubmit to enable delivery.';
+      form.reset();
+    }catch(error){
+      feedback.className='contact-feedback error';
+      feedback.textContent='Message could not be sent. Please email me directly at sahilkoshti1354@gmail.com.';
+    }finally{button.disabled=false;button.textContent='Send Message →';}
+  });
 })();
 </script>
 </body>
