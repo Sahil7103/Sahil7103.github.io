@@ -371,6 +371,26 @@ body.dim-mode #topbar{filter:brightness(.85)}
 .contact-feedback.success{color:var(--teal)}.contact-feedback.error{color:var(--coral)}
 .contact-honeypot{position:absolute;left:-9999px;opacity:0;pointer-events:none}
 @media(max-width:700px){.contact-form-grid{grid-template-columns:1fr}}
+
+/* Portfolio experience enhancements */
+.hero-name{background:linear-gradient(105deg,var(--text) 15%,#a8b7ff 47%,var(--text) 75%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:heroShimmer 9s ease-in-out infinite}
+@keyframes heroShimmer{0%,100%{background-position:100% 50%}50%{background-position:0 50%}}
+.home-hero{position:relative;overflow:hidden;isolation:isolate}
+.home-hero:before{content:"";position:absolute;inset:-50%;z-index:-1;background:radial-gradient(circle at 25% 45%,rgba(94,124,255,.12),transparent 35%),radial-gradient(circle at 78% 65%,rgba(255,106,77,.07),transparent 32%);animation:heroDrift 18s ease-in-out infinite alternate;pointer-events:none}
+@keyframes heroDrift{to{transform:translate(8%, -5%) rotate(8deg)}}
+.proj-filters{display:flex;gap:8px;flex-wrap:wrap;margin:-7px 0 20px}
+.proj-filter{border:1px solid var(--border2);background:var(--surface);color:var(--text2);padding:8px 13px;border-radius:999px;font:11px var(--mono);transition:background .2s,border-color .2s,color .2s}
+.proj-filter:hover,.proj-filter[aria-pressed="true"]{border-color:var(--accent);color:var(--text);background:var(--accent-glow)}
+.proj-card{position:relative;overflow:hidden;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.proj-card:hover{box-shadow:0 16px 40px rgba(0,0,0,.16)}
+.proj-card[hidden]{display:none!important}
+.proj-visual{height:104px;border-radius:9px;margin-bottom:17px;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;overflow:hidden;position:relative;background:linear-gradient(120deg,var(--visual-a),var(--visual-b));border:1px solid rgba(255,255,255,.08)}
+.proj-visual:after{content:"";position:absolute;width:180px;height:180px;border:1px solid rgba(255,255,255,.17);border-radius:36px;right:-30px;top:-90px;transform:rotate(32deg);box-shadow:0 0 0 25px rgba(255,255,255,.035),0 0 0 52px rgba(255,255,255,.025);transition:transform .5s}
+.proj-card:hover .proj-visual:after{transform:rotate(55deg) scale(1.08)}
+.proj-visual-mark{font:700 34px var(--serif);color:#fff;letter-spacing:-1px;z-index:1}
+.proj-visual-type{font:10px var(--mono);letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.82);z-index:1;text-align:right;max-width:110px}
+.proj-empty{padding:24px;color:var(--text2);text-align:center}
+@media(prefers-reduced-motion:reduce){.hero-name,.home-hero:before{animation:none}.proj-card,.proj-visual:after{transition:none}}
 </style>
 </head>
 <body>
@@ -496,7 +516,8 @@ body.dim-mode #topbar{filter:brightness(.85)}
         <div class="page-title">Projects</div>
         <div class="page-sub">7 production-grade builds across mobile, AI, and full stack</div>
       </div>
-      <div class="proj-grid">
+      <div class="proj-filters" role="group" aria-label="Filter projects"><button class="proj-filter" data-filter="all" aria-pressed="true">All projects</button><button class="proj-filter" data-filter="mobile" aria-pressed="false">Mobile</button><button class="proj-filter" data-filter="ai" aria-pressed="false">AI / ML</button><button class="proj-filter" data-filter="web" aria-pressed="false">Full stack</button></div>
+      <div class="proj-grid" id="portfolioProjectGrid">
         <div class="proj-card featured">
           <div class="ai-chip">Mobile · Audio</div><span class="live-badge">Live on iOS &amp; Android</span>
           <div class="proj-top"><div class="proj-title">Arya: Kids Bedtime Stories</div><div class="proj-year">2026</div></div>
@@ -1035,6 +1056,40 @@ document.getElementById('fillReset').addEventListener('click', ()=>{state.clear(
       feedback.textContent='Message could not be sent. Please email me directly at sahilkoshti1354@gmail.com.';
     }finally{button.disabled=false;button.textContent='Send Message →';}
   });
+})();
+</script>
+
+<script>
+(function(){
+ const grid=document.getElementById('portfolioProjectGrid');
+ if(!grid)return;
+ const cards=[...grid.querySelectorAll('.proj-card')];
+ const designs=[
+  ['AR','Mobile · Audio','#283f91','#121b3b',['mobile']],
+  ['CF','Flutter · Creative','#a34880','#36183e',['mobile']],
+  ['AI','Generative AI','#394baf','#181b45',['ai','web']],
+  ['GM','Commerce · Mobile','#177f78','#103a48',['mobile','web']],
+  ['ML','Machine Learning','#674a9f','#22244d',['ai','web']],
+  ['HR','Web Application','#87603b','#382b31',['web']],
+  ['JV','Voice · NLP','#315e87','#1a294d',['ai']]
+ ];
+ cards.forEach((card,index)=>{
+  const [mark,type,a,b,categories]=designs[index]||['DEV','Software','#394baf','#1b2347',['web']];
+  card.dataset.categories=categories.join(' ');
+  const visual=document.createElement('div');
+  visual.className='proj-visual';visual.setAttribute('aria-hidden','true');
+  visual.style.setProperty('--visual-a',a);visual.style.setProperty('--visual-b',b);
+  const markEl=document.createElement('span');markEl.className='proj-visual-mark';markEl.textContent=mark;
+  const typeEl=document.createElement('span');typeEl.className='proj-visual-type';typeEl.textContent=type;
+  visual.append(markEl,typeEl);card.prepend(visual);
+ });
+ document.querySelectorAll('.proj-filter').forEach(button=>{
+  button.addEventListener('click',()=>{
+   const filter=button.dataset.filter;
+   document.querySelectorAll('.proj-filter').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+   cards.forEach(card=>{card.hidden=filter!=='all'&&!card.dataset.categories.split(' ').includes(filter)});
+  });
+ });
 })();
 </script>
 </body>
