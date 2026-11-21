@@ -319,7 +319,6 @@ body.dim-mode #topbar{filter:brightness(.85)}
   :root{--sidebar-w:0px}
   html,body{overflow:hidden}
   #sidebar{display:none}
-  #mobile-nav{display:flex}
   #app{top:var(--topbar-h);bottom:64px;left:0;right:0;width:100%}
   #main{width:100%;overflow-y:auto;overflow-x:hidden}
   .page{padding:16px;padding-bottom:90px;min-height:auto}
@@ -348,13 +347,16 @@ body.dim-mode #topbar{filter:brightness(.85)}
   .tinput{font-size:11px;min-width:120px}
   .term-hint{padding:10px 12px;gap:6px}
   .thint{font-size:9.5px;padding:3px 7px}
-  .mn-item{font-size:9.5px;padding:4px 6px;min-width:0}
-  .mn-icon{font-size:16px}
 }
 #mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(14,15,19,0.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:8px 0;z-index:200;justify-content:space-around}
 .mn-item{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:var(--text3);cursor:pointer;padding:4px 10px;border-radius:8px;transition:color .2s}
 .mn-item.active,.mn-item:hover{color:var(--accent)}
 .mn-icon{font-size:16px;width:16px;height:16px;display:inline-block;border-radius:3px}
+@media(max-width:700px){
+  #mobile-nav{display:flex;padding-bottom:calc(8px + env(safe-area-inset-bottom))}
+  #app{bottom:calc(64px + env(safe-area-inset-bottom))}
+  .mn-item{font-size:9.5px;padding:4px 3px;min-width:0}
+}
 
 /* Contact form */
 .contact-form-card{margin-top:20px;margin-bottom:20px}
@@ -493,7 +495,7 @@ body.dim-mode #topbar{filter:brightness(.85)}
       <div class="quick-actions">
         <div class="qa-btn" onclick="goPage('projects', document.querySelector('[data-page=projects]'))">
           <div class="qa-dot" style="background:var(--accent)"></div>
-          <div><div class="qa-label">View Projects</div><div class="qa-sub">6 builds · AI, Mobile, Web</div></div>
+          <div><div class="qa-label">View Projects</div><div class="qa-sub">7 builds · AI, Mobile, Web</div></div>
         </div>
         <div class="qa-btn" onclick="goPage('skills', document.querySelector('[data-page=skills]'))">
           <div class="qa-dot" style="background:var(--coral)"></div>
@@ -870,13 +872,15 @@ body.dim-mode #topbar{filter:brightness(.85)}
   </div>
 </div>
 
-<div id="mobile-nav">
+<nav id="mobile-nav" aria-label="Mobile navigation">
   <div class="mn-item active" data-page="home" onclick="goPage('home',this)"><div class="mn-icon" style="background:var(--accent)"></div>Home</div>
   <div class="mn-item" data-page="projects" onclick="goPage('projects',this)"><div class="mn-icon" style="background:var(--coral)"></div>Projects</div>
   <div class="mn-item" data-page="skills" onclick="goPage('skills',this)"><div class="mn-icon" style="background:var(--gold)"></div>Skills</div>
+  <div class="mn-item" data-page="experience" onclick="goPage('experience',this)"><div class="mn-icon" style="background:var(--text2)"></div>Experience</div>
+  <div class="mn-item" data-page="github" onclick="goPage('github',this)"><div class="mn-icon" style="background:var(--text)"></div>GitHub</div>
   <div class="mn-item" data-page="terminal" onclick="goPage('terminal',this)"><div class="mn-icon" style="background:var(--teal)"></div>Terminal</div>
   <div class="mn-item" data-page="contact" onclick="goPage('contact',this)"><div class="mn-icon" style="background:var(--violet)"></div>Contact</div>
-</div>
+</nav>
 
 <script>
 function tick(){const n=new Date(),h=String(n.getHours()).padStart(2,'0'),m=String(n.getMinutes()).padStart(2,'0');document.getElementById('clock').textContent=h+':'+m}
@@ -884,7 +888,7 @@ tick();setInterval(tick,15000);
 
 setTimeout(()=>{const b=document.getElementById('boot');b.classList.add('out');setTimeout(()=>b.style.display='none',500)},1900);
 
-const pageTitles={home:'about.me — Sahil Koshti',projects:'projects — 6 builds',skills:'tech-stack.json',experience:'experience & education',github:'github — @Sahil7103',terminal:'terminal — bash',contact:'contact.info'};
+const pageTitles={home:'about.me — Sahil Koshti',projects:'projects — 7 builds',skills:'tech-stack.json',experience:'experience & education',github:'github — @Sahil7103',terminal:'terminal — bash',contact:'contact.info'};
 function goPage(id, el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const page=document.getElementById('page-'+id);
@@ -961,13 +965,16 @@ function runCmd(val){
   if(!val)return;
   const out=document.getElementById('termOut');
   const area=document.getElementById('termArea');
-  const prompt=`<div class="tl"><span class="tp">sahil@dev</span> <span class="to">~</span> <span class="to">$</span> <span class="tc">${val}</span></div>`;
+  const commandText=document.createElement("span");
+  commandText.textContent=val;
+  const escapedCommand=commandText.innerHTML;
+  const prompt=`<div class="tl"><span class="tp">sahil@dev</span> <span class="to">~</span> <span class="to">$</span> <span class="tc">${escapedCommand}</span></div>`;
   if(val==='clear'){out.innerHTML='';return}
-  if(CMDS[val]!==undefined){
+  if(Object.hasOwn(CMDS,val)){
     if(val==='github'){out.innerHTML+=prompt+`<div class="tl to">${CMDS[val]}</div><div class="tl"> </div>`;window.open('https://github.com/Sahil7103','_blank')}
     else{out.innerHTML+=prompt+`<div class="tl to" style="white-space:pre-line">${CMDS[val]}</div><div class="tl"> </div>`}
   } else {
-    out.innerHTML+=prompt+`<div class="tl te">command not found: ${val}. Try 'help'</div><div class="tl"> </div>`;
+    out.innerHTML+=prompt+`<div class="tl te">command not found: ${escapedCommand}. Try 'help'</div><div class="tl"> </div>`;
   }
   area.scrollTop=area.scrollHeight;
 }
